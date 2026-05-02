@@ -8,9 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
-    /* ============================================================
-       ROOT & RESET
-    ============================================================ */
     :root {
       --coral:   #FF6B6B;
       --orange:  #FF9F43;
@@ -19,8 +16,6 @@
       --blue:    #4EC9C0;
       --purple:  #C77DFF;
       --dark:    #2A2A2A;
-      --mid:     #666;
-      --light-bg:#FFF8F2;
       --card-bg: #FFFFFF;
       --border:  #EBEBEB;
     }
@@ -29,478 +24,285 @@
     body {
       font-family: 'Nunito', sans-serif;
       min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
+      display: flex; align-items: flex-start; justify-content: center;
       padding: 28px 16px 48px;
       background: #FFF3E8;
       background-image:
         radial-gradient(ellipse 700px 600px at 10% 0%,   #FFD6D6 0%, transparent 60%),
         radial-gradient(ellipse 600px 500px at 90% 100%, #D6EEFF 0%, transparent 60%),
         radial-gradient(ellipse 500px 400px at 50% 50%,  #E8FFED 0%, transparent 70%);
-      overflow-x: hidden;
-      position: relative;
+      overflow-x: hidden; position: relative;
     }
-
-    /* floating blobs */
     body::before, body::after {
-      content: '';
-      position: fixed;
-      border-radius: 50%;
-      z-index: 0;
-      pointer-events: none;
+      content:''; position:fixed; border-radius:50%; z-index:0; pointer-events:none;
     }
     body::before {
-      width: 360px; height: 360px;
-      top: -120px; left: -120px;
-      background: radial-gradient(circle, rgba(255,180,180,.45) 0%, transparent 70%);
-      animation: blobDrift 10s ease-in-out infinite;
+      width:360px; height:360px; top:-120px; left:-120px;
+      background:radial-gradient(circle,rgba(255,180,180,.45) 0%,transparent 70%);
+      animation:blobDrift 10s ease-in-out infinite;
     }
     body::after {
-      width: 480px; height: 480px;
-      bottom: -160px; right: -160px;
-      background: radial-gradient(circle, rgba(160,210,255,.4) 0%, transparent 70%);
-      animation: blobDrift 13s ease-in-out infinite reverse;
+      width:480px; height:480px; bottom:-160px; right:-160px;
+      background:radial-gradient(circle,rgba(160,210,255,.4) 0%,transparent 70%);
+      animation:blobDrift 13s ease-in-out infinite reverse;
     }
     @keyframes blobDrift {
-      0%,100% { transform: translate(0,0) scale(1); }
-      50%      { transform: translate(24px, 32px) scale(1.08); }
+      0%,100%{transform:translate(0,0) scale(1);}
+      50%{transform:translate(24px,32px) scale(1.08);}
     }
 
-    /* ============================================================
-       CONTAINER & SCREENS
-    ============================================================ */
-    .wrap {
-      width: 100%;
-      max-width: 660px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .screen { display: none; }
-    .screen.active {
-      display: block;
-      animation: screenIn .45s cubic-bezier(.22,1,.36,1);
-    }
+    .wrap { width:100%; max-width:660px; position:relative; z-index:1; }
+    .screen { display:none; }
+    .screen.active { display:block; animation:screenIn .45s cubic-bezier(.22,1,.36,1); }
     @keyframes screenIn {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from{opacity:0;transform:translateY(22px);}
+      to{opacity:1;transform:translateY(0);}
     }
-
-    /* ============================================================
-       SHARED CARD
-    ============================================================ */
     .card {
-      background: var(--card-bg);
-      border-radius: 28px;
-      box-shadow: 0 12px 48px rgba(0,0,0,.10), 0 2px 8px rgba(0,0,0,.05);
+      background:var(--card-bg); border-radius:28px;
+      box-shadow:0 12px 48px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.05);
     }
 
-    /* ============================================================
-       INTRO SCREEN
-    ============================================================ */
-    #screenIntro .card {
-      padding: 44px 36px 40px;
-      text-align: center;
-    }
-
-    .animal-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 22px;
-    }
+    /* ===== INTRO ===== */
+    #screenIntro .card { padding:44px 36px 40px; text-align:center; }
+    .animal-row { display:flex; justify-content:center; gap:10px; margin-bottom:22px; }
     .a-bubble {
-      width: 62px; height: 62px;
-      border-radius: 50%;
-      font-size: 30px;
-      display: flex; align-items: center; justify-content: center;
-      animation: floatBub 2.4s ease-in-out infinite;
+      width:62px; height:62px; border-radius:50%;
+      font-size:30px; display:flex; align-items:center; justify-content:center;
+      animation:floatBub 2.4s ease-in-out infinite;
     }
-    .a-bubble:nth-child(1){ background:#FFE8E8; animation-delay:0s; }
-    .a-bubble:nth-child(2){ background:#FFFCE0; animation-delay:.18s; }
-    .a-bubble:nth-child(3){ background:#FFE9D6; animation-delay:.36s; }
-    .a-bubble:nth-child(4){ background:#DEF5E6; animation-delay:.54s; }
+    .a-bubble:nth-child(1){background:#FFE8E8;animation-delay:0s;}
+    .a-bubble:nth-child(2){background:#FFFCE0;animation-delay:.18s;}
+    .a-bubble:nth-child(3){background:#FFE9D6;animation-delay:.36s;}
+    .a-bubble:nth-child(4){background:#DEF5E6;animation-delay:.54s;}
     @keyframes floatBub {
-      0%,100% { transform: translateY(0) rotate(-3deg); }
-      50%      { transform: translateY(-11px) rotate(3deg); }
+      0%,100%{transform:translateY(0) rotate(-3deg);}
+      50%{transform:translateY(-11px) rotate(3deg);}
     }
-
     .intro-logo { font-family:'Fredoka One',sans-serif; font-size:46px; color:var(--dark); line-height:1; letter-spacing:-1px; margin-bottom:4px; }
-    .intro-sub   { font-size:15px; color:#999; font-weight:700; margin-bottom:22px; }
-
-    .intro-desc {
-      font-size:15px; color:#666; line-height:1.75;
-      margin-bottom:26px; padding: 0 4px;
-    }
-    .intro-desc strong { color: var(--dark); }
-
-    .pills {
-      display:flex; flex-wrap:wrap; gap:10px;
-      justify-content:center; margin-bottom:32px;
-    }
-    .pill {
-      padding:8px 18px; border-radius:50px;
-      font-size:13.5px; font-weight:800;
-    }
-    .pill-elang { background:#E4F3FD; color:#1E88C0; }
-    .pill-lebah { background:#FFFCE0; color:#C8990A; }
-    .pill-rubah { background:#FFF0E4; color:#D96818; }
-    .pill-kura  { background:#E2F8EC; color:#1FA558; }
-
+    .intro-sub  { font-size:15px; color:#999; font-weight:700; margin-bottom:22px; }
+    .intro-desc { font-size:15px; color:#666; line-height:1.75; margin-bottom:26px; padding:0 4px; }
+    .intro-desc strong { color:var(--dark); }
+    .pills { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:32px; }
+    .pill  { padding:8px 18px; border-radius:50px; font-size:13.5px; font-weight:800; }
+    .pill-elang{background:#E4F3FD;color:#1E88C0;}
+    .pill-lebah{background:#FFFCE0;color:#C8990A;}
+    .pill-rubah{background:#FFF0E4;color:#D96818;}
+    .pill-kura {background:#E2F8EC;color:#1FA558;}
     .btn-main {
-      display:block; width:100%;
-      padding:18px;
-      border:none; border-radius:18px;
-      font-family:'Nunito',sans-serif;
-      font-size:17px; font-weight:900;
+      display:block; width:100%; padding:18px; border:none; border-radius:18px;
+      font-family:'Nunito',sans-serif; font-size:17px; font-weight:900;
       color:#fff; cursor:pointer;
-      background: linear-gradient(135deg, var(--coral) 0%, var(--orange) 100%);
-      box-shadow: 0 8px 28px rgba(255,107,107,.38);
-      transition: transform .18s, box-shadow .18s;
-      letter-spacing:.3px;
+      background:linear-gradient(135deg,var(--coral) 0%,var(--orange) 100%);
+      box-shadow:0 8px 28px rgba(255,107,107,.38);
+      transition:transform .18s,box-shadow .18s; letter-spacing:.3px;
     }
-    .btn-main:hover { transform:translateY(-3px); box-shadow:0 14px 36px rgba(255,107,107,.46); }
-
-    .meta-row {
-      display:flex; justify-content:center; gap:22px;
-      margin-top:20px;
-    }
+    .btn-main:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(255,107,107,.46);}
+    .meta-row  { display:flex; justify-content:center; gap:22px; margin-top:20px; }
     .meta-item { font-size:13px; color:#BBB; font-weight:700; }
 
-    /* ============================================================
-       QUIZ SCREEN
-    ============================================================ */
+    /* ===== PROGRESS ===== */
     .progress-header { margin-bottom:18px; }
-    .progress-top {
-      display:flex; justify-content:space-between;
-      margin-bottom:8px;
-    }
-    .prog-label { font-size:13px; font-weight:800; color:#999; }
-    .prog-track {
-      background:rgba(255,255,255,.7);
-      border-radius:50px; height:10px;
-      overflow:hidden;
-      box-shadow:inset 0 2px 6px rgba(0,0,0,.07);
-    }
-    .prog-fill {
-      height:100%;
-      background: linear-gradient(90deg, var(--coral), var(--orange));
-      border-radius:50px;
-      transition: width .4s cubic-bezier(.4,0,.2,1);
-    }
-    .prog-dots {
-      display:flex; justify-content:center;
-      gap:7px; margin-top:11px;
-    }
-    .prog-dot {
-      width:9px; height:9px; border-radius:50%;
-      background:#fff; opacity:.45;
-      transition: all .3s;
-    }
+    .progress-top    { display:flex; justify-content:space-between; margin-bottom:8px; }
+    .prog-label      { font-size:13px; font-weight:800; color:#999; }
+    .prog-track      { background:rgba(255,255,255,.7); border-radius:50px; height:10px; overflow:hidden; box-shadow:inset 0 2px 6px rgba(0,0,0,.07); }
+    .prog-fill       { height:100%; background:linear-gradient(90deg,var(--coral),var(--orange)); border-radius:50px; transition:width .4s cubic-bezier(.4,0,.2,1); }
+    .prog-dots       { display:flex; justify-content:center; gap:7px; margin-top:11px; }
+    .prog-dot        { width:9px; height:9px; border-radius:50%; background:#fff; opacity:.45; transition:all .3s; }
     .prog-dot.done   { background:var(--orange); opacity:1; }
     .prog-dot.active { background:var(--coral);  opacity:1; transform:scale(1.4); }
 
+    /* ===== QUIZ CARD ===== */
     #screenQuiz .card { padding:32px 32px 28px; }
+
+    /* Question type badge */
+    .q-type-badge {
+      display:inline-block; padding:3px 12px; border-radius:50px;
+      font-size:10.5px; font-weight:900; letter-spacing:1.4px; text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    .q-type-badge.mc     { background:#FFF0E4; color:#D96818; }
+    .q-type-badge.likert { background:#E8F4FD; color:#1E88C0; }
 
     .q-text {
       font-family:'Fredoka One',sans-serif;
-      font-size:21px; color:var(--dark);
-      line-height:1.42; margin-bottom:24px;
+      font-size:21px; color:var(--dark); line-height:1.42; margin-bottom:24px;
     }
 
+    /* ===== MC OPTIONS ===== */
     .options { display:flex; flex-direction:column; gap:11px; }
-
     .opt-btn {
       display:flex; align-items:center; gap:14px;
-      background:#F8F9FA;
-      border:2.5px solid var(--border);
-      border-radius:16px;
-      padding:15px 18px;
-      font-family:'Nunito',sans-serif;
-      font-size:14.5px; font-weight:700;
-      color:#4A4A4A; line-height:1.4;
-      cursor:pointer; text-align:left;
-      transition: all .18s cubic-bezier(.4,0,.2,1);
+      background:#F8F9FA; border:2.5px solid var(--border); border-radius:16px;
+      padding:15px 18px; font-family:'Nunito',sans-serif;
+      font-size:14.5px; font-weight:700; color:#4A4A4A; line-height:1.4;
+      cursor:pointer; text-align:left; transition:all .18s cubic-bezier(.4,0,.2,1);
     }
-    .opt-btn:hover {
-      border-color: var(--coral);
-      background:#FFF5F4;
-      transform:translateX(5px);
-      color: #C03030;
-    }
-    .opt-btn.selected {
-      border-color: var(--coral);
-      background: linear-gradient(120deg,#FFE8E8,#FFF2E5);
-      color: #B83030;
-    }
-
+    .opt-btn:hover   { border-color:var(--coral); background:#FFF5F4; transform:translateX(5px); color:#C03030; }
+    .opt-btn.selected{ border-color:var(--coral); background:linear-gradient(120deg,#FFE8E8,#FFF2E5); color:#B83030; }
     .opt-letter {
-      min-width:34px; height:34px;
-      border-radius:50%;
+      min-width:34px; height:34px; border-radius:50%;
       background:#fff; border:2.5px solid #DDD;
       display:flex; align-items:center; justify-content:center;
-      font-weight:900; font-size:13px;
-      flex-shrink:0; transition: all .18s;
+      font-weight:900; font-size:13px; flex-shrink:0; transition:all .18s;
     }
-    .opt-btn.selected .opt-letter {
-      background:var(--coral); border-color:var(--coral); color:#fff;
+    .opt-btn.selected .opt-letter { background:var(--coral); border-color:var(--coral); color:#fff; }
+
+    /* ===== LIKERT SCALE ===== */
+    .likert-container { display:flex; flex-direction:column; gap:18px; }
+
+    /* Statement box — teks pernyataan dalam kotak biru muda */
+    .likert-stmt {
+      background:#F0F8FF; border-left:3px solid var(--blue);
+      border-radius:14px; padding:16px 18px;
+      font-size:15px; font-weight:700; color:#333; line-height:1.65;
     }
 
-    .quiz-nav {
-      display:flex; gap:12px; margin-top:22px;
+    /* Track = lingkaran 1–5 dengan garis penghubung */
+    .likert-track {
+      position:relative; display:flex;
+      justify-content:space-between; align-items:center;
+      padding:4px 0;
     }
+    .likert-track::before {
+      content:''; position:absolute;
+      left:26px; right:26px; height:2px;
+      background:var(--border); z-index:0;
+    }
+    .lk-btn {
+      position:relative; z-index:1;
+      width:52px; height:52px; border-radius:50%;
+      border:2.5px solid var(--border); background:#F8F9FA;
+      font-family:'Nunito',sans-serif; font-size:17px; font-weight:900; color:#AAA;
+      cursor:pointer; transition:all .18s cubic-bezier(.4,0,.2,1);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .lk-btn:hover    { border-color:var(--coral); background:#FFF5F4; color:var(--coral); transform:scale(1.12); }
+    .lk-btn.selected { background:var(--coral); border-color:var(--coral); color:#fff; transform:scale(1.15); box-shadow:0 4px 16px rgba(255,107,107,.38); }
+
+    .likert-labels {
+      display:flex; justify-content:space-between;
+      font-size:11px; font-weight:700; color:#BBB; padding:0 2px;
+    }
+    .likert-labels span:last-child { text-align:right; }
+
+    /* ===== QUIZ NAV ===== */
+    .quiz-nav { display:flex; gap:12px; margin-top:22px; }
     .btn-back {
       background:#fff; border:2.5px solid var(--border);
       padding:13px 20px; border-radius:14px;
-      font-family:'Nunito',sans-serif;
-      font-size:14px; font-weight:800;
-      color:#AAA; cursor:pointer;
-      transition: all .16s;
+      font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
+      color:#AAA; cursor:pointer; transition:all .16s;
     }
     .btn-back:hover { border-color:#CCC; color:#777; }
-
     .btn-next {
-      flex:1;
-      background: linear-gradient(135deg,var(--coral),var(--orange));
-      border:none; border-radius:14px;
-      padding:14px 20px;
-      font-family:'Nunito',sans-serif;
-      font-size:15px; font-weight:900;
-      color:#fff; cursor:pointer;
-      box-shadow:0 6px 20px rgba(255,107,107,.32);
-      transition: all .18s;
-      opacity:.42; pointer-events:none;
+      flex:1; background:linear-gradient(135deg,var(--coral),var(--orange));
+      border:none; border-radius:14px; padding:14px 20px;
+      font-family:'Nunito',sans-serif; font-size:15px; font-weight:900;
+      color:#fff; cursor:pointer; box-shadow:0 6px 20px rgba(255,107,107,.32);
+      transition:all .18s; opacity:.42; pointer-events:none;
     }
     .btn-next.ready { opacity:1; pointer-events:auto; }
     .btn-next.ready:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(255,107,107,.44); }
 
-    /* ============================================================
-       LOADING SCREEN
-    ============================================================ */
+    /* ===== LOADING ===== */
     #screenLoading .card { padding:56px 36px; text-align:center; }
-
     .ld-dots { display:flex; justify-content:center; gap:14px; margin-bottom:30px; }
-    .ld-dot {
-      width:18px; height:18px; border-radius:50%;
-      animation: ldBounce 1.15s ease-in-out infinite;
-    }
-    .ld-dot:nth-child(1){ background:var(--coral);  animation-delay:0s; }
-    .ld-dot:nth-child(2){ background:var(--yellow);  animation-delay:.14s; }
-    .ld-dot:nth-child(3){ background:var(--mint);   animation-delay:.28s; }
-    .ld-dot:nth-child(4){ background:var(--purple); animation-delay:.42s; }
-    @keyframes ldBounce {
-      0%,100% { transform:translateY(0); }
-      50%      { transform:translateY(-18px); }
-    }
-
+    .ld-dot  { width:18px; height:18px; border-radius:50%; animation:ldBounce 1.15s ease-in-out infinite; }
+    .ld-dot:nth-child(1){background:var(--coral); animation-delay:0s;}
+    .ld-dot:nth-child(2){background:var(--yellow);animation-delay:.14s;}
+    .ld-dot:nth-child(3){background:var(--mint);  animation-delay:.28s;}
+    .ld-dot:nth-child(4){background:var(--purple);animation-delay:.42s;}
+    @keyframes ldBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-18px);}}
     .ld-title { font-family:'Fredoka One',sans-serif; font-size:26px; color:var(--dark); margin-bottom:8px; }
     .ld-sub   { font-size:14px; color:#AAA; font-weight:700; margin-bottom:32px; }
-
     .ld-steps { text-align:left; }
-    .ld-step {
-      display:flex; align-items:center; gap:12px;
-      padding:9px 0;
-      font-size:14px; font-weight:700;
-      color:#CCC; transition:color .3s;
-    }
+    .ld-step  { display:flex; align-items:center; gap:12px; padding:9px 0; font-size:14px; font-weight:700; color:#CCC; transition:color .3s; }
     .ld-step.active { color:var(--coral); }
     .ld-step.done   { color:var(--mint); }
-    .ld-step-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: currentColor; flex-shrink: 0;
-      transition: background .3s;
-    }
+    .ld-step-dot    { width:10px; height:10px; border-radius:50%; background:currentColor; flex-shrink:0; }
 
-    /* ============================================================
-       RESULT SCREEN
-    ============================================================ */
+    /* ===== RESULT ===== */
     .result-card { overflow:hidden; }
-
-    .result-header {
-      padding:44px 36px 32px;
-      text-align:center;
-      position:relative;
-    }
-    .result-badge {
-      display:inline-block;
-      padding:5px 16px; border-radius:50px;
-      font-size:11px; font-weight:900;
-      letter-spacing:1.8px; text-transform:uppercase;
-      margin-bottom:16px;
-    }
-    .result-animal {
-      font-size:92px; display:block;
-      margin-bottom:14px;
-      animation: popIn .7s cubic-bezier(.68,-.55,.27,1.55);
-    }
-    @keyframes popIn {
-      0%   { transform:scale(0) rotate(-18deg); opacity:0; }
-      100% { transform:scale(1) rotate(0deg);   opacity:1; }
-    }
+    .result-header { padding:44px 36px 32px; text-align:center; }
+    .result-badge  { display:inline-block; padding:5px 16px; border-radius:50px; font-size:11px; font-weight:900; letter-spacing:1.8px; text-transform:uppercase; margin-bottom:16px; }
+    .result-animal { font-size:92px; display:block; margin-bottom:14px; animation:popIn .7s cubic-bezier(.68,-.55,.27,1.55); }
+    @keyframes popIn{0%{transform:scale(0) rotate(-18deg);opacity:0;}100%{transform:scale(1) rotate(0);opacity:1;}}
     .result-name    { font-family:'Fredoka One',sans-serif; font-size:36px; color:var(--dark); margin-bottom:4px; }
     .result-tagline { font-size:15px; color:#999; font-weight:700; }
 
     .result-body { padding:0 36px 36px; }
+    .result-desc { background:#F7F8FA; border-radius:20px; padding:22px; font-size:14.5px; color:#555; line-height:1.82; margin-bottom:22px; }
 
-    .result-desc {
-      background:#F7F8FA; border-radius:20px;
-      padding:22px 22px;
-      font-size:14.5px; color:#555;
-      line-height:1.82; margin-bottom:22px;
-    }
-
-    .traits-grid {
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:12px; margin-bottom:22px;
-    }
-    .trait-box { border-radius:18px; padding:18px 16px; }
+    .traits-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:22px; }
+    .trait-box   { border-radius:18px; padding:18px 16px; }
     .trait-box.strength { background:#E5F9EE; }
     .trait-box.caution  { background:#FFF4E5; }
-    .trait-ttl {
-      font-size:11px; font-weight:900;
-      letter-spacing:1.4px; text-transform:uppercase;
-      margin-bottom:10px;
-    }
+    .trait-ttl   { font-size:11px; font-weight:900; letter-spacing:1.4px; text-transform:uppercase; margin-bottom:10px; }
     .trait-box.strength .trait-ttl { color:#1FA558; }
     .trait-box.caution  .trait-ttl { color:#D96818; }
-    .trait-list { list-style:none; }
-    .trait-list li {
-      font-size:13px; font-weight:700; color:#555;
-      padding:3px 0;
-    }
+    .trait-list  { list-style:none; }
+    .trait-list li { font-size:13px; font-weight:700; color:#555; padding:3px 0; }
     .trait-list li::before { content:"• "; }
 
-    /* Dimension bars */
     .dims-section { margin-bottom:22px; }
-    .dims-ttl {
-      font-size:11px; font-weight:900;
-      letter-spacing:1.6px; text-transform:uppercase;
-      color:#BBB; margin-bottom:14px;
-    }
-    .dim-row {
-      display:flex; align-items:center; gap:12px;
-      margin-bottom:10px;
-    }
-    .dim-lbl {
-      font-size:12.5px; font-weight:800;
-      color:#888; width:140px; flex-shrink:0;
-    }
-    .dim-track {
-      flex:1; background:#EBEBEB;
-      border-radius:50px; height:9px;
-      overflow:hidden;
-    }
-    .dim-fill {
-      height:100%; border-radius:50px;
-      transition: width 1s cubic-bezier(.4,0,.2,1);
-    }
+    .dims-ttl { font-size:11px; font-weight:900; letter-spacing:1.6px; text-transform:uppercase; color:#BBB; margin-bottom:14px; }
+    .dim-row  { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+    .dim-lbl  { font-size:12.5px; font-weight:800; color:#888; width:140px; flex-shrink:0; }
+    .dim-track{ flex:1; background:#EBEBEB; border-radius:50px; height:9px; overflow:hidden; }
+    .dim-fill { height:100%; border-radius:50px; transition:width 1s cubic-bezier(.4,0,.2,1); }
 
-    /* Tip box */
-    .tip-box { border-radius:18px; padding:20px 22px; margin-bottom:22px; }
-    .tip-ttl {
-      font-size:11px; font-weight:900;
-      letter-spacing:1.4px; text-transform:uppercase;
-      margin-bottom:8px;
-    }
-    .tip-body {
-      font-size:14px; font-weight:600;
-      color:#555; line-height:1.72;
-    }
+    .tip-box  { border-radius:18px; padding:20px 22px; margin-bottom:22px; }
+    .tip-ttl  { font-size:11px; font-weight:900; letter-spacing:1.4px; text-transform:uppercase; margin-bottom:8px; }
+    .tip-body { font-size:14px; font-weight:600; color:#555; line-height:1.72; }
 
-    /* Other personalities */
     .others-section { margin-bottom:22px; }
-    .others-ttl {
-      font-size:11px; font-weight:900;
-      letter-spacing:1.6px; text-transform:uppercase;
-      color:#BBB; margin-bottom:12px;
-    }
-    .others-row {
-      display:flex; gap:10px;
-    }
-    .other-chip {
-      flex:1; padding:12px 8px;
-      border-radius:14px;
-      text-align:center;
-      font-size:12.5px; font-weight:800;
-      cursor:pointer; transition:transform .16s;
-      border: 2px solid transparent;
-    }
+    .others-ttl     { font-size:11px; font-weight:900; letter-spacing:1.6px; text-transform:uppercase; color:#BBB; margin-bottom:12px; }
+    .others-row     { display:flex; gap:10px; }
+    .other-chip     { flex:1; padding:14px 8px; border-radius:14px; text-align:center; font-size:12.5px; font-weight:800; cursor:pointer; transition:transform .16s; border:2px solid transparent; }
     .other-chip:hover { transform:scale(1.06); }
+    .other-chip .oc-animal { font-size:26px; display:block; margin-bottom:4px; animation:floatBub 2.8s ease-in-out infinite; }
+    .other-chip:nth-child(1) .oc-animal { animation-delay:0s; }
+    .other-chip:nth-child(2) .oc-animal { animation-delay:.2s; }
+    .other-chip:nth-child(3) .oc-animal { animation-delay:.4s; }
 
-    /* Save status */
-    .save-status {
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: #BBB;
-      margin-bottom: 14px;
-      min-height: 18px;
-    }
-    .save-status.ok  { color: var(--mint); }
-    .save-status.err { color: #FFB3B3; }
+    .save-status { text-align:center; font-size:12px; font-weight:700; color:#BBB; margin-bottom:14px; min-height:18px; }
+    .save-status.ok  { color:var(--mint); }
+    .save-status.err { color:#FFB3B3; }
 
     .btn-retry {
-      display:block; width:100%;
-      padding:16px; border:none; border-radius:16px;
-      font-family:'Nunito',sans-serif;
-      font-size:16px; font-weight:900;
+      display:block; width:100%; padding:16px; border:none; border-radius:16px;
+      font-family:'Nunito',sans-serif; font-size:16px; font-weight:900;
       color:#fff; cursor:pointer;
       background:linear-gradient(135deg,var(--coral),var(--orange));
-      box-shadow:0 6px 22px rgba(255,107,107,.34);
-      transition:all .18s;
+      box-shadow:0 6px 22px rgba(255,107,107,.34); transition:all .18s;
     }
     .btn-retry:hover { transform:translateY(-2px); box-shadow:0 11px 30px rgba(255,107,107,.44); }
 
-    /* ============================================================
-       FOOTER
-    ============================================================ */
-    .footer {
-      text-align:center; padding-top:22px;
-      font-size:12px; color:#CDBFB2; font-weight:700;
-    }
+    .footer { text-align:center; padding-top:22px; font-size:12px; color:#CDBFB2; font-weight:700; }
 
-    /* ============================================================
-       CONFETTI
-    ============================================================ */
-    #confetti-host {
-      position:fixed; top:0; left:0;
-      width:100%; height:100%;
-      pointer-events:none; z-index:9999;
-      overflow:hidden;
-    }
-    .conf {
-      position:absolute;
-      top:-14px;
-      animation: confDrop linear forwards;
-    }
-    @keyframes confDrop {
-      to { transform:translateY(105vh) rotate(720deg); opacity:0; }
-    }
+    /* ===== CONFETTI ===== */
+    #confetti-host { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:9999; overflow:hidden; }
+    .conf { position:absolute; top:-14px; animation:confDrop linear forwards; }
+    @keyframes confDrop { to{transform:translateY(105vh) rotate(720deg);opacity:0;} }
 
-    /* ============================================================
-       RESPONSIVE
-    ============================================================ */
+    /* ===== RESPONSIVE ===== */
     @media(max-width:480px){
-      #screenIntro .card,
-      #screenQuiz  .card,
-      #screenLoading .card { padding:26px 18px 22px; }
-      .result-header { padding:32px 20px 24px; }
-      .result-body   { padding:0 20px 28px; }
-      .intro-logo { font-size:38px; }
-      .q-text { font-size:18px; }
-      .traits-grid { grid-template-columns:1fr; }
-      .others-row { flex-wrap:wrap; }
-      .other-chip { min-width: calc(50% - 5px); }
+      #screenIntro .card,#screenQuiz .card,#screenLoading .card{ padding:26px 18px 22px; }
+      .result-header{padding:32px 20px 24px;} .result-body{padding:0 20px 28px;}
+      .intro-logo{font-size:38px;} .q-text{font-size:18px;}
+      .lk-btn{width:44px;height:44px;font-size:15px;}
+      .likert-track::before{left:22px;right:22px;}
+      .traits-grid{grid-template-columns:1fr;}
+      .others-row{flex-wrap:wrap;} .other-chip{min-width:calc(50% - 5px);}
     }
   </style>
 </head>
 <body>
 <div id="confetti-host"></div>
-
 <div class="wrap">
 
-  <!-- ==================== INTRO ==================== -->
+  <!-- ============ INTRO ============ -->
   <div class="screen active" id="screenIntro">
     <div class="card">
       <div class="animal-row">
@@ -512,61 +314,56 @@
       <h1 class="intro-logo">FinPersona</h1>
       <p class="intro-sub">Kamu tipe hewan keuangan apa?</p>
       <p class="intro-desc">
-        Jawab <strong>9 skenario perilaku finansial singkat</strong> — tanpa pertanyaan gaji atau nominal sensitif!
-        Algoritma <strong>K-Means clustering</strong> kami akan menganalisis 4 dimensi kepribadian keuanganmu
+        Jawab <strong>11 pertanyaan singkat</strong> — kombinasi skenario pilihan &amp; pernyataan skala — tanpa data sensitif!
+        Algoritma <strong>K-Means clustering</strong> menganalisis 4 dimensi kepribadian keuanganmu
         dan mencocokkan kamu ke salah satu dari 4 tipe hewan.
       </p>
       <div class="pills">
         <span class="pill pill-elang">Si Elang</span>
         <span class="pill pill-lebah">Si Lebah</span>
         <span class="pill pill-rubah">Si Rubah</span>
-        <span class="pill pill-kura" >Si Kura-kura</span>
+        <span class="pill pill-kura">Si Kura-kura</span>
       </div>
-      <button class="btn-main" onclick="startQuiz()">Mulai Quiz Sekarang!</button>
+      <button class="btn-main" onclick="startQuiz()">Mulai Quiz Sekarang</button>
       <div class="meta-row">
-        <span class="meta-item">~3 menit</span>
+        <span class="meta-item">~4 menit</span>
         <span class="meta-item">Anonim &amp; Gratis</span>
-        <span class="meta-item">9 pertanyaan</span>
+        <span class="meta-item">11 pertanyaan</span>
       </div>
     </div>
     <div class="footer">FinPersona &copy; 2024 &nbsp;&middot;&nbsp; Dibuat dengan semangat</div>
   </div>
 
-  <!-- ==================== QUIZ ==================== -->
+  <!-- ============ QUIZ ============ -->
   <div class="screen" id="screenQuiz">
     <div class="progress-header">
       <div class="progress-top">
-        <span class="prog-label" id="progLabel">Pertanyaan 1 dari 9</span>
+        <span class="prog-label" id="progLabel">Pertanyaan 1 dari 11</span>
         <span class="prog-label" id="progPct">0%</span>
       </div>
-      <div class="prog-track">
-        <div class="prog-fill" id="progFill" style="width:0%"></div>
-      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
       <div class="prog-dots" id="progDots"></div>
     </div>
-
     <div class="card">
-      <p class="q-text" id="qText">Loading...</p>
-      <div class="options" id="optGrid"></div>
+      <span class="q-type-badge mc" id="qTypeBadge">Skenario</span>
+      <p class="q-text" id="qText"></p>
+      <div id="optGrid"></div>
     </div>
-
     <div class="quiz-nav">
       <button class="btn-back" id="btnBack" onclick="prevQ()">Kembali</button>
       <button class="btn-next" id="btnNext" onclick="nextQ()">Selanjutnya</button>
     </div>
   </div>
 
-  <!-- ==================== LOADING ==================== -->
+  <!-- ============ LOADING ============ -->
   <div class="screen" id="screenLoading">
     <div class="card">
       <div class="ld-dots">
-        <div class="ld-dot"></div>
-        <div class="ld-dot"></div>
-        <div class="ld-dot"></div>
-        <div class="ld-dot"></div>
+        <div class="ld-dot"></div><div class="ld-dot"></div>
+        <div class="ld-dot"></div><div class="ld-dot"></div>
       </div>
       <h2 class="ld-title">Sedang menganalisis…</h2>
-      <p  class="ld-sub">Algoritma clustering sedang bekerja untukmu</p>
+      <p class="ld-sub">Algoritma clustering sedang bekerja untukmu</p>
       <div class="ld-steps">
         <div class="ld-step" id="ldS1"><span class="ld-step-dot"></span><span>Mengumpulkan seluruh responsmu…</span></div>
         <div class="ld-step" id="ldS2"><span class="ld-step-dot"></span><span>Menghitung vektor 4 dimensi kepribadian…</span></div>
@@ -576,19 +373,17 @@
     </div>
   </div>
 
-  <!-- ==================== RESULT ==================== -->
+  <!-- ============ RESULT ============ -->
   <div class="screen" id="screenResult">
-    <div class="card result-card" id="resultCard">
+    <div class="card result-card">
       <div class="result-header" id="resultHeader">
         <span class="result-badge" id="rBadge">Tipe Keuangan</span>
         <span class="result-animal" id="rEmoji">🦅</span>
-        <h2 class="result-name"    id="rName">Si Elang</h2>
-        <p  class="result-tagline" id="rTagline">The Strategic Eagle</p>
+        <h2 class="result-name" id="rName">Si Elang</h2>
+        <p class="result-tagline" id="rTagline">The Strategic Eagle</p>
       </div>
-
       <div class="result-body">
-        <div class="result-desc" id="rDesc">…</div>
-
+        <div class="result-desc" id="rDesc"></div>
         <div class="traits-grid">
           <div class="trait-box strength">
             <div class="trait-ttl">Kekuatanmu</div>
@@ -599,37 +394,21 @@
             <ul class="trait-list" id="rWatchouts"></ul>
           </div>
         </div>
-
         <div class="dims-section">
           <div class="dims-ttl">Profil Dimensi Keuanganmu</div>
-          <div class="dim-row">
-            <span class="dim-lbl">Toleransi Risiko</span>
-            <div class="dim-track"><div class="dim-fill" id="dBar0" style="width:0%"></div></div>
-          </div>
-          <div class="dim-row">
-            <span class="dim-lbl">Kedisiplinan</span>
-            <div class="dim-track"><div class="dim-fill" id="dBar1" style="width:0%"></div></div>
-          </div>
-          <div class="dim-row">
-            <span class="dim-lbl">Orientasi Masa Depan</span>
-            <div class="dim-track"><div class="dim-fill" id="dBar2" style="width:0%"></div></div>
-          </div>
-          <div class="dim-row">
-            <span class="dim-lbl">Kemampuan Analitis</span>
-            <div class="dim-track"><div class="dim-fill" id="dBar3" style="width:0%"></div></div>
-          </div>
+          <div class="dim-row"><span class="dim-lbl">Toleransi Risiko</span>     <div class="dim-track"><div class="dim-fill" id="dBar0" style="width:0%"></div></div></div>
+          <div class="dim-row"><span class="dim-lbl">Kedisiplinan</span>         <div class="dim-track"><div class="dim-fill" id="dBar1" style="width:0%"></div></div></div>
+          <div class="dim-row"><span class="dim-lbl">Orientasi Masa Depan</span> <div class="dim-track"><div class="dim-fill" id="dBar2" style="width:0%"></div></div></div>
+          <div class="dim-row"><span class="dim-lbl">Kemampuan Analitis</span>   <div class="dim-track"><div class="dim-fill" id="dBar3" style="width:0%"></div></div></div>
         </div>
-
         <div class="tip-box" id="rTipBox">
           <div class="tip-ttl" id="rTipTtl">Tips untuk Kamu</div>
-          <p   class="tip-body" id="rTipBody">…</p>
+          <p class="tip-body" id="rTipBody"></p>
         </div>
-
         <div class="others-section">
           <div class="others-ttl">Tipe Kepribadian Lainnya</div>
           <div class="others-row" id="othersRow"></div>
         </div>
-
         <div class="save-status" id="saveStatus"></div>
         <button class="btn-retry" onclick="restartQuiz()">Ulangi Quiz dari Awal</button>
       </div>
@@ -637,196 +416,297 @@
     <div class="footer">FinPersona &copy; 2024 &nbsp;&middot;&nbsp; Dibuat dengan semangat</div>
   </div>
 
-</div><!-- /wrap -->
+</div>
 
 <script>
-/* ============================================================
-   KONFIGURASI — Isi URL Google Apps Script kamu di sini
-   Lihat README.md untuk cara mendapatkan URL ini
-============================================================ */
+/* ================================================================
+   KONFIGURASI — URL Google Apps Script
+================================================================ */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCK5mmZBdhZFa5DV3zuUffZLzfbrLp6k_9SyIDlsiQl7UNc38Mp9jx3hHg3egmgZuv/exec";
 
-/* ============================================================
-   DATA: PERTANYAAN
-   Setiap opsi memiliki skor [RiskTolerance, Discipline, FutureOrientation, Analytical]
-   Skala 1–10 per dimensi.
-============================================================ */
+/* ================================================================
+   PERTANYAAN (11 soal — 6 MC + 5 Likert)
+   Dimensi: [RiskTolerance, Discipline, FutureOrientation, Analytical]
+   Skala setiap dimensi: 1–10
+
+   MC   → opts[i].sc  = skor vektor 4 dimensi dari pilihan ke-i
+   Likert → sc[j]     = skor vektor untuk pilihan j+1 (j=0 berarti nilai Likert=1)
+================================================================ */
 const QUESTIONS = [
-  {
-    text: "Kamu tiba-tiba dapat bonus kerja setara 3 bulan gaji. Apa yang PERTAMA kali terlintas di benakmu?",
-    opts: [
-      { text: "Langsung cari instrumen investasi dengan potensi return terbaik saat ini",     sc: [9, 5, 9, 8] },
-      { text: "Buat rencana alokasi dulu: berapa persen untuk tabung, investasi, dan kesenangan", sc: [4, 9, 9, 7] },
-      { text: "Rayakan dulu! Ajak keluarga/teman makan enak — sisanya baru dipikirin nanti",  sc: [7, 2, 3, 4] },
-      { text: "Simpan semua di rekening tabungan — takut salah langkah kalau terburu-buru",  sc: [2, 8, 6, 2] }
+
+  /* ── Q1: MC skenario bonus ── */
+  { type:"mc",
+    text:"Kamu tiba-tiba dapat bonus kerja setara 3 bulan gaji. Apa yang PERTAMA kali terlintas di benakmu?",
+    opts:[
+      {text:"Langsung cari instrumen investasi dengan potensi return terbaik saat ini",        sc:[9,5,9,8]},
+      {text:"Buat rencana alokasi dulu: berapa persen untuk tabung, investasi, dan kesenangan",sc:[4,9,9,7]},
+      {text:"Rayakan dulu! Ajak keluarga/teman makan enak — sisanya baru dipikirin nanti",     sc:[7,2,3,4]},
+      {text:"Simpan semua di rekening tabungan — takut salah langkah kalau terburu-buru",      sc:[2,8,6,2]}
     ]
   },
-  {
-    text: "Flash sale 70% mulai jam 00.00 malam ini untuk barang yang lumayan kamu inginkan. Reaksimu?",
-    opts: [
-      { text: "Riset dulu harga normalnya — cek apakah ini benar-benar hemat atau sekadar gimmick", sc: [5, 7, 7, 9] },
-      { text: "Cek budget bulananku dulu. Kalau masuk alokasi belanja, baru beli",             sc: [3, 9, 6, 6] },
-      { text: "Langsung checkout! Diskon segini jarang-jarang, sayang dilewatkan",            sc: [8, 1, 2, 3] },
-      { text: "Tutup tab-nya saja. Promo itu jebakan supaya orang lebih boros",               sc: [1, 8, 5, 2] }
+
+  /* ── Q2: Likert — kebiasaan menabung/investasi rutin (Discipline) ── */
+  { type:"likert",
+    text:"Saya selalu menyisihkan sebagian penghasilan untuk ditabung atau diinvestasikan setiap bulan, tanpa terkecuali.",
+    scaleMin:"Sangat Tidak Setuju", scaleMax:"Sangat Setuju",
+    sc:[
+      [4, 1,3,3],  /* Likert 1 — STS */
+      [4, 3,4,4],  /* Likert 2 — TS  */
+      [5, 5,5,5],  /* Likert 3 — N   */
+      [4, 8,7,6],  /* Likert 4 — S   */
+      [3,10,9,7]   /* Likert 5 — SS  */
     ]
   },
-  {
-    text: "Teman dekat mengajak ikut investasi di bisnis kuliner yang katanya bisa untung 20–30% per tahun. Kamu?",
-    opts: [
-      { text: "Minta lihat business plan dan proyeksi keuangannya dulu sebelum memutuskan", sc: [7, 7, 8, 10] },
-      { text: "Ikut, tapi dengan porsi kecil yang tidak akan bikin rugi seandainya gagal",  sc: [4, 8, 7,  6] },
-      { text: "Kalau feeling-ku bagus dan temannya terpercaya, langsung ikut saja!",        sc: [8, 2, 5,  2] },
-      { text: "Politely decline — lebih suka instrumen investasi yang sudah terbukti aman", sc: [1, 8, 5,  3] }
+
+  /* ── Q3: MC skenario flash sale ── */
+  { type:"mc",
+    text:"Flash sale 70% mulai jam 00.00 malam ini untuk barang yang lumayan kamu inginkan. Reaksimu?",
+    opts:[
+      {text:"Riset dulu harga normalnya — cek apakah ini benar-benar hemat atau sekadar gimmick",sc:[5,7,7,9]},
+      {text:"Cek budget bulananku dulu. Kalau masuk alokasi belanja, baru beli",                  sc:[3,9,6,6]},
+      {text:"Langsung checkout! Diskon segini jarang-jarang, sayang dilewatkan",                  sc:[8,1,2,3]},
+      {text:"Tutup tab-nya saja. Promo itu jebakan supaya orang lebih boros",                     sc:[1,8,5,2]}
     ]
   },
-  {
-    text: "Akhir bulan ada sisa uang yang lumayan, semua kebutuhan sudah terpenuhi. Biasanya kamu…",
-    opts: [
-      { text: "Langsung tambahkan ke portofolio investasi yang sudah berjalan",                    sc: [8,  7, 9, 8] },
-      { text: "Alokasikan ke dana darurat atau tabungan tujuan spesifik (liburan, DP, dll.)",      sc: [3, 10, 8, 7] },
-      { text: "Manjakan diri sendiri — itu reward wajar setelah kerja keras sebulan!",             sc: [6,  2, 3, 4] },
-      { text: "Biarkan mengendap di rekening, siapa tahu ada keperluan mendadak bulan depan",     sc: [2,  6, 5, 2] }
+
+  /* ── Q4: Likert — kenyamanan dengan risiko (Risk) ── */
+  { type:"likert",
+    text:"Saya merasa nyaman berinvestasi di instrumen yang nilainya bisa naik-turun drastis, asalkan potensi keuntungannya besar.",
+    scaleMin:"Sangat Tidak Setuju", scaleMax:"Sangat Setuju",
+    sc:[
+      [ 1,7,5,4],  /* 1 — STS */
+      [ 3,6,5,5],  /* 2 — TS  */
+      [ 5,5,5,5],  /* 3 — N   */
+      [ 8,4,6,7],  /* 4 — S   */
+      [10,2,6,8]   /* 5 — SS  */
     ]
   },
-  {
-    text: "Pasar saham turun hampir 30% dalam dua minggu dan banyak orang panik menjual. Kamu?",
-    opts: [
-      { text: "Ini kesempatan emas! Tambah porsi investasi selagi harga sedang murah",        sc: [9, 6, 8, 9] },
-      { text: "Tenang saja — ini sudah diantisipasi dalam strategi investasi jangka panjangku", sc: [5, 9, 9, 7] },
-      { text: "Agak panik, jual sebagian dulu untuk jaga-jaga supaya tidak rugi makin banyak", sc: [6, 2, 3, 4] },
-      { text: "Syukurlah uangku tidak di sana — investasi berisiko memang bukan untukku",     sc: [1, 7, 5, 2] }
+
+  /* ── Q5: MC skenario ajakan investasi teman ── */
+  { type:"mc",
+    text:"Teman dekat mengajak ikut investasi di bisnis kuliner yang katanya bisa untung 20–30% per tahun. Kamu?",
+    opts:[
+      {text:"Minta lihat business plan dan proyeksi keuangannya dulu sebelum memutuskan",sc:[7,7,8,10]},
+      {text:"Ikut, tapi dengan porsi kecil yang tidak akan bikin rugi seandainya gagal", sc:[4,8,7, 6]},
+      {text:"Kalau feeling-ku bagus dan temannya terpercaya, langsung ikut saja!",       sc:[8,2,5, 2]},
+      {text:"Politely decline — lebih suka instrumen investasi yang sudah terbukti aman",sc:[1,8,5, 3]}
     ]
   },
-  {
-    text: "Kalau bicara kondisi keuanganmu 5 tahun dari sekarang, kamu termasuk yang…",
-    opts: [
-      { text: "Sudah punya target angka spesifik dan strategi konkret untuk mencapainya",    sc: [7, 8, 10, 9] },
-      { text: "Punya tujuan jelas dan sudah rutin menabung/berinvestasi ke arah sana",       sc: [4, 9,  9, 6] },
-      { text: "Belum terlalu memikirkan — yang penting saat ini bisa menikmati hidup",       sc: [5, 2,  2, 3] },
-      { text: "Berharap masih bisa menabung kalau tidak ada hal tak terduga yang mengganggu", sc: [2, 6,  6, 2] }
+
+  /* ── Q6: Likert — punya target keuangan jangka panjang (FutureOrientation) ── */
+  { type:"likert",
+    text:"Saya sudah memiliki target keuangan yang spesifik dan terukur untuk 5–10 tahun ke depan.",
+    scaleMin:"Sangat Tidak Setuju", scaleMax:"Sangat Setuju",
+    sc:[
+      [5,3, 1,3],  /* 1 — STS */
+      [5,4, 3,4],  /* 2 — TS  */
+      [5,5, 5,5],  /* 3 — N   */
+      [6,7, 8,7],  /* 4 — S   */
+      [7,8,10,9]   /* 5 — SS  */
     ]
   },
-  {
-    text: "Ada gadget mahal yang kamu idamkan sejak lama dan sekarang punya cukup uang untuk beli. Kamu…",
-    opts: [
-      { text: "Riset kapan harga paling murah, bandingkan cicilan vs. cash — pilih yang paling efisien", sc: [5,  7, 7, 8] },
-      { text: "Sudah menabung dari jauh-jauh hari khusus untuk ini, jadi beli cash tanpa ragu",          sc: [3, 10, 8, 6] },
-      { text: "Beli sekarang dengan kartu kredit, cicil bulan depan — yang penting bisa dinikmati duluan", sc: [8, 2, 3, 4] },
-      { text: "Tunda lagi — rasanya belum benar-benar perlu dan masih banyak kebutuhan lain",            sc: [1,  8, 6, 2] }
+
+  /* ── Q7: MC skenario pasar saham crash ── */
+  { type:"mc",
+    text:"Pasar saham turun hampir 30% dalam dua minggu dan banyak orang panik menjual. Kamu?",
+    opts:[
+      {text:"Ini kesempatan emas! Tambah porsi investasi selagi harga sedang murah",          sc:[9,6,8,9]},
+      {text:"Tenang saja — ini sudah diantisipasi dalam strategi investasi jangka panjangku", sc:[5,9,9,7]},
+      {text:"Agak panik, jual sebagian dulu untuk jaga-jaga supaya tidak rugi makin banyak", sc:[6,2,3,4]},
+      {text:"Syukurlah uangku tidak di sana — investasi berisiko memang bukan untukku",      sc:[1,7,5,2]}
     ]
   },
-  {
-    text: "Seberapa rutin kamu mencatat atau memantau ke mana uangmu pergi setiap bulan?",
-    opts: [
-      { text: "Selalu — punya spreadsheet atau app khusus yang di-update minimal tiap minggu", sc: [6, 8, 8, 10] },
-      { text: "Cukup rutin — cek mutasi rekening atau app keuangan setiap akhir bulan",        sc: [4, 8, 7,  7] },
-      { text: "Kadang-kadang — kalau lagi ingat atau penasaran aja",                           sc: [5, 4, 4,  4] },
-      { text: "Jarang atau tidak pernah — terlalu ribet, lebih suka pakai feeling",            sc: [3, 3, 4,  2] }
+
+  /* ── Q8: Likert — ketelitian membaca syarat produk keuangan (Analytical) ── */
+  { type:"likert",
+    text:"Sebelum membeli produk keuangan apa pun (asuransi, reksa dana, dll.), saya selalu membaca dan memahami seluruh syarat dan ketentuannya.",
+    scaleMin:"Sangat Tidak Setuju", scaleMax:"Sangat Setuju",
+    sc:[
+      [6,4,4, 1],  /* 1 — STS */
+      [5,5,5, 3],  /* 2 — TS  */
+      [5,5,5, 5],  /* 3 — N   */
+      [6,7,7, 8],  /* 4 — S   */
+      [7,8,8,10]   /* 5 — SS  */
     ]
   },
-  {
-    text: "Ketika melihat artikel atau konten menarik soal investasi dan keuangan, biasanya kamu…",
-    opts: [
-      { text: "Baca tuntas, riset lebih lanjut, dan pertimbangkan untuk langsung diaplikasikan", sc: [8, 7, 9, 9] },
-      { text: "Baca dan simpan dulu — akan dipertimbangkan kalau cocok dengan rencana yang ada", sc: [4, 8, 8, 7] },
-      { text: "Scroll sekilas — kalau menarik mungkin dicoba, kalau tidak ya sudah",             sc: [5, 3, 4, 4] },
-      { text: "Sering skip — terlalu overwhelming, lebih suka simpan di tempat aman saja",       sc: [2, 6, 5, 2] }
+
+  /* ── Q9: MC skenario proyeksi 5 tahun ── */
+  { type:"mc",
+    text:"Kalau bicara kondisi keuanganmu 5 tahun dari sekarang, kamu termasuk yang…",
+    opts:[
+      {text:"Sudah punya target angka spesifik dan strategi konkret untuk mencapainya",     sc:[7,8,10,9]},
+      {text:"Punya tujuan jelas dan sudah rutin menabung/berinvestasi ke arah sana",        sc:[4,9, 9,6]},
+      {text:"Belum terlalu memikirkan — yang penting saat ini bisa menikmati hidup",        sc:[5,2, 2,3]},
+      {text:"Berharap masih bisa menabung kalau tidak ada hal tak terduga yang mengganggu", sc:[2,6, 6,2]}
+    ]
+  },
+
+  /* ── Q10: Likert — hedonisme vs orientasi masa depan (inverse FutureOrientation) ── */
+  { type:"likert",
+    text:"Saya lebih suka menikmati uang sekarang daripada menundanya demi kepuasan atau keamanan di masa depan.",
+    scaleMin:"Sangat Tidak Setuju", scaleMax:"Sangat Setuju",
+    sc:[
+      [3,9,9,6],  /* 1 — STS: future-oriented */
+      [4,7,7,6],  /* 2 — TS  */
+      [5,5,5,5],  /* 3 — N   */
+      [7,3,3,5],  /* 4 — S   */
+      [8,1,1,4]   /* 5 — SS: hedonistik */
+    ]
+  },
+
+  /* ── Q11: MC — kebiasaan mencatat pengeluaran ── */
+  { type:"mc",
+    text:"Seberapa rutin kamu mencatat atau memantau ke mana uangmu pergi setiap bulan?",
+    opts:[
+      {text:"Selalu — punya spreadsheet atau app khusus yang di-update minimal tiap minggu",sc:[6, 8,8,10]},
+      {text:"Cukup rutin — cek mutasi rekening atau app keuangan setiap akhir bulan",       sc:[4, 8,7, 7]},
+      {text:"Kadang-kadang — kalau lagi ingat atau penasaran aja",                          sc:[5, 4,4, 4]},
+      {text:"Jarang atau tidak pernah — terlalu ribet, lebih suka pakai feeling",           sc:[3, 3,4, 2]}
     ]
   }
-];
 
-/* ============================================================
-   DATA: KEPRIBADIAN
-   Centroid: [RiskTol, Discipline, FutureOrient, Analytical] (skala 1–10)
-============================================================ */
+]; /* end QUESTIONS */
+
+/* ================================================================
+   TIPE KEPRIBADIAN HEWAN
+   Centroid: [RiskTol, Discipline, FutureOrient, Analytical] skala 1–10
+================================================================ */
 const TYPES = {
-  elang: {
-    emoji: "🦅", name: "Si Elang", tagline: "The Strategic Eagle",
-    center: [8, 6, 9, 8],
-    badgeBg: "#DCF0FC", badgeColor: "#1B7DB5",
-    headerBg: "linear-gradient(135deg,#DCF0FC 0%,#C8E4F8 100%)",
-    dimColor: "#2196F3",
-    desc: "Kamu adalah tipikal investor kalkulatif yang tidak takut risiko — asal sudah diperhitungkan dengan matang. Keputusan finansialmu berbasis data dan analisis, bukan sekadar feeling. Kamu selalu berpikir jauh ke depan dan tidak segan mengambil peluang yang orang lain lewatkan. Bagi kamu, uang bukan sekadar untuk disimpan, tapi untuk terus dioptimalkan agar bekerja keras secara otomatis.",
-    strengths: ["Visioner & strategis dalam keputusan", "Data-driven, bukan sekedar feeling", "Berani ambil peluang investasi terukur", "Orientasi jangka panjang sangat kuat"],
-    watchouts: ["Bisa terlalu overconfident pada analisis", "Kadang overlook risiko-risiko kecil", "Perlu lebih balance antara nikmati & investasi"],
-    tipBg: "#EBF6FD", tipColor: "#1B7DB5",
-    tip: "Kamu sudah hebat dalam strategi besar! Pastikan dana darurat liquid (3–6 bulan pengeluaran) selalu terjaga sebelum agresif berinvestasi. Diversifikasi portofolio agar tidak terlalu terkonsentrasi di satu instrumen — bahkan elang pun terbang lebih stabil dengan sayap yang seimbang."
+  elang:{
+    emoji:"🦅", name:"Si Elang", tagline:"The Strategic Eagle",
+    center:[8,6,9,8],
+    badgeBg:"#DCF0FC", badgeColor:"#1B7DB5",
+    headerBg:"linear-gradient(135deg,#DCF0FC 0%,#C8E4F8 100%)",
+    dimColor:"#2196F3",
+    desc:"Kamu adalah tipikal investor kalkulatif yang tidak takut risiko — asal sudah diperhitungkan dengan matang. Keputusan finansialmu berbasis data dan analisis, bukan sekadar feeling. Kamu selalu berpikir jauh ke depan dan tidak segan mengambil peluang yang orang lain lewatkan.",
+    strengths:["Visioner & strategis dalam keputusan","Data-driven, bukan sekedar feeling","Berani ambil peluang investasi terukur","Orientasi jangka panjang sangat kuat"],
+    watchouts:["Bisa terlalu overconfident pada analisis","Kadang overlook risiko-risiko kecil","Perlu lebih balance antara nikmati & investasi"],
+    tipBg:"#EBF6FD", tipColor:"#1B7DB5",
+    tip:"Pastikan dana darurat liquid (3–6 bulan pengeluaran) selalu terjaga sebelum agresif berinvestasi. Diversifikasi portofolio agar tidak terlalu terkonsentrasi di satu instrumen — bahkan elang pun terbang lebih stabil dengan sayap yang seimbang."
   },
-  lebah: {
-    emoji: "🐝", name: "Si Lebah", tagline: "The Diligent Bee",
-    center: [3, 9, 8, 6],
-    badgeBg: "#FFF8D6", badgeColor: "#B8860B",
-    headerBg: "linear-gradient(135deg,#FFF8D6 0%,#FFF2B0 100%)",
-    dimColor: "#FFC107",
-    desc: "Kamu adalah maestro anggaran yang sejati! Setiap rupiah sudah punya tugasnya masing-masing — dan kamu memastikan hal itu benar-benar terjadi. Disiplin finansialmu adalah kekuatan terbesar, dan konsistensimu dalam menabung serta merencanakan membuat keuanganmu sangat stabil. Kamu adalah tipe yang tidak pernah kaget di tanggal tua.",
-    strengths: ["Sangat disiplin & konsisten", "Master budgeting & perencanaan", "Tujuan keuangan jelas & terarah", "Tidak mudah tergoda impulse buying"],
-    watchouts: ["Kadang terlalu kaku dengan rencana", "Bisa melewatkan peluang bagus yang tidak 'ada di plan'", "Perlu juga sesekali menikmati hasil kerja keras"],
-    tipBg: "#FFFDE7", tipColor: "#B8860B",
-    tip: "Kedisiplinanmu luar biasa! Coba tambahkan 'spontaneous budget' kecil (~5%) agar hidup lebih seimbang. Pertimbangkan juga mulai eksplorasi instrumen investasi dengan return lebih tinggi dari tabungan biasa — kamu sudah punya fondasi yang sempurna untuk naik level."
+  lebah:{
+    emoji:"🐝", name:"Si Lebah", tagline:"The Diligent Bee",
+    center:[3,9,8,6],
+    badgeBg:"#FFF8D6", badgeColor:"#B8860B",
+    headerBg:"linear-gradient(135deg,#FFF8D6 0%,#FFF2B0 100%)",
+    dimColor:"#FFC107",
+    desc:"Kamu adalah maestro anggaran yang sejati! Setiap rupiah sudah punya tugasnya masing-masing. Disiplin finansialmu adalah kekuatan terbesar, dan konsistensimu dalam menabung serta merencanakan membuat keuanganmu sangat stabil.",
+    strengths:["Sangat disiplin & konsisten","Master budgeting & perencanaan","Tujuan keuangan jelas & terarah","Tidak mudah tergoda impulse buying"],
+    watchouts:["Kadang terlalu kaku dengan rencana","Bisa melewatkan peluang bagus yang tidak 'ada di plan'","Perlu juga sesekali menikmati hasil kerja keras"],
+    tipBg:"#FFFDE7", tipColor:"#B8860B",
+    tip:"Coba tambahkan 'spontaneous budget' kecil (~5%) agar hidup lebih seimbang. Pertimbangkan juga mulai eksplorasi instrumen investasi dengan return lebih tinggi dari tabungan biasa — kamu sudah punya fondasi yang sempurna untuk naik level."
   },
-  rubah: {
-    emoji: "🦊", name: "Si Rubah", tagline: "The Cunning Fox",
-    center: [7, 3, 4, 5],
-    badgeBg: "#FFEEDE", badgeColor: "#C05800",
-    headerBg: "linear-gradient(135deg,#FFEEDE 0%,#FFE0C4 100%)",
-    dimColor: "#FF7043",
-    desc: "Kamu adalah tipe yang adaptif dan tahu cara menikmati uang! Fleksibel, spontan, dan selalu bisa menemukan cara untuk bersenang-senang tanpa merasa bersalah berlebihan. Kamu jago memanfaatkan momen dan tidak terlalu stres soal keuangan. Hidup terasa lebih ringan karena kamu tidak terkungkung aturan finansial yang terlalu ketat.",
-    strengths: ["Sangat fleksibel & adaptif terhadap situasi", "Pintar menikmati hasil jerih payah", "Tidak mudah stres soal uang sehari-hari", "Jago temukan deal & peluang saat ini"],
-    watchouts: ["Kurang perencanaan keuangan jangka panjang", "Bisa kaget ketika ada kebutuhan besar mendadak", "Tabungan & investasi perlu lebih disisihkan secara rutin"],
-    tipBg: "#FFF5EE", tipColor: "#C05800",
-    tip: "Energimu menyenangkan banget, tapi masa depan butuh sedikit perhatian sekarang juga! Coba set up auto-debit investasi kecil (misal reksa dana Rp 100–200 ribu/bulan) yang otomatis berjalan. Kamu tidak akan merasakannya setiap bulan, tapi 10 tahun lagi kamu akan sangat berterima kasih."
+  rubah:{
+    emoji:"🦊", name:"Si Rubah", tagline:"The Cunning Fox",
+    center:[7,3,4,5],
+    badgeBg:"#FFEEDE", badgeColor:"#C05800",
+    headerBg:"linear-gradient(135deg,#FFEEDE 0%,#FFE0C4 100%)",
+    dimColor:"#FF7043",
+    desc:"Kamu adalah tipe yang adaptif dan tahu cara menikmati uang! Fleksibel, spontan, dan selalu bisa menemukan cara untuk bersenang-senang. Hidup terasa lebih ringan karena kamu tidak terkungkung aturan finansial yang terlalu ketat.",
+    strengths:["Sangat fleksibel & adaptif terhadap situasi","Pintar menikmati hasil jerih payah","Tidak mudah stres soal uang sehari-hari","Jago temukan deal & peluang saat ini"],
+    watchouts:["Kurang perencanaan keuangan jangka panjang","Bisa kaget ketika ada kebutuhan besar mendadak","Tabungan & investasi perlu lebih disisihkan secara rutin"],
+    tipBg:"#FFF5EE", tipColor:"#C05800",
+    tip:"Coba set up auto-debit investasi kecil (misal reksa dana Rp 100–200 ribu/bulan) yang otomatis berjalan. Kamu tidak akan merasakannya setiap bulan, tapi 10 tahun lagi kamu akan sangat berterima kasih."
   },
-  kura: {
-    emoji: "🐢", name: "Si Kura-kura", tagline: "The Steady Turtle",
-    center: [2, 8, 5, 3],
-    badgeBg: "#DFF5E8", badgeColor: "#187A40",
-    headerBg: "linear-gradient(135deg,#DFF5E8 0%,#C5EDD6 100%)",
-    dimColor: "#43A047",
-    desc: "Safety first — dan tidak ada yang salah dengan itu! Kamu adalah tipe yang selalu merasa aman dan tidak pernah mengambil keputusan keuangan secara gegabah. Uangmu terjaga dengan baik dan kamu tidak mudah terjebak penipuan investasi. Ketenangan dan kehati-hatianmu adalah aset besar di dunia keuangan yang penuh jebakan.",
-    strengths: ["Sangat hati-hati & tidak gegabah", "Dana darurat selalu terjaga dengan baik", "Tidak mudah tertipu investasi bodong", "Tenang & stabil menghadapi tekanan finansial"],
-    watchouts: ["Uang di tabungan biasa bisa 'termakan' inflasi pelan-pelan", "Terlalu menghindari risiko yang sebenarnya terukur dan aman", "Peluang pertumbuhan aset jangka panjang sering terlewat"],
-    tipBg: "#F0FFF4", tipColor: "#187A40",
-    tip: "Kehati-hatianmu adalah fondasi yang kuat banget! Saatnya biarkan uangmu bekerja sedikit lebih keras. Coba mulai dengan reksa dana pasar uang atau deposito — jauh lebih aman dari saham, tapi return-nya lebih baik dari tabungan biasa. Satu langkah kecil yang tepat sudah cukup untuk memulai."
+  kura:{
+    emoji:"🐢", name:"Si Kura-kura", tagline:"The Steady Turtle",
+    center:[2,8,5,3],
+    badgeBg:"#DFF5E8", badgeColor:"#187A40",
+    headerBg:"linear-gradient(135deg,#DFF5E8 0%,#C5EDD6 100%)",
+    dimColor:"#43A047",
+    desc:"Safety first — dan tidak ada yang salah dengan itu! Kamu adalah tipe yang tidak pernah mengambil keputusan keuangan secara gegabah. Uangmu terjaga dengan baik dan kamu tidak mudah terjebak penipuan investasi.",
+    strengths:["Sangat hati-hati & tidak gegabah","Dana darurat selalu terjaga dengan baik","Tidak mudah tertipu investasi bodong","Tenang & stabil menghadapi tekanan finansial"],
+    watchouts:["Uang di tabungan biasa bisa termakan inflasi pelan-pelan","Terlalu menghindari risiko yang sebenarnya terukur dan aman","Peluang pertumbuhan aset jangka panjang sering terlewat"],
+    tipBg:"#F0FFF4", tipColor:"#187A40",
+    tip:"Coba mulai dengan reksa dana pasar uang atau deposito — jauh lebih aman dari saham, tapi return-nya lebih baik dari tabungan biasa. Satu langkah kecil yang tepat sudah cukup untuk memulai."
   }
 };
 
 const DIM_COLORS = ["#FF6B6B","#4EC9C0","#6BCB77","#C77DFF"];
 
-/* ============================================================
-   STATE
-============================================================ */
-let curQ    = 0;
-let answers = [];   // array of selected option index per question
+/* ================================================================
+   DETEKSI DUPLIKAT — localStorage UUID
+   ─────────────────────────────────────────────────────────────────
+   Strategi:
+   • Saat halaman pertama dibuka di suatu browser, dibuat UUID v4 unik.
+   • UUID disimpan di localStorage sehingga tetap sama pada kunjungan berikutnya
+     SELAMA cache/data browser tidak di-clear.
+   • Setiap kali quiz diselesaikan, counter lokal bertambah.
+   • Kedua nilai dikirim ke spreadsheet bersama data hasil quiz.
+   • Di Apps Script, setiap UUID yang masuk dicek ulang terhadap
+     seluruh baris yang sudah ada → kolom "Duplikat?" dan
+     "Urutan Submit UUID Ini" diisi otomatis untuk memudahkan cleaning.
+================================================================ */
+function getOrCreateUUID() {
+  const KEY = 'finpersona_uid';
+  let uid = localStorage.getItem(KEY);
+  if (!uid) {
+    uid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c==='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    localStorage.setItem(KEY, uid);
+  }
+  return uid;
+}
 
-/* ============================================================
-   CLUSTERING (K-Means assignment)
-============================================================ */
+function incrementSubCount() {
+  const KEY = 'finpersona_sub_count';
+  const n = parseInt(localStorage.getItem(KEY) || '0') + 1;
+  localStorage.setItem(KEY, String(n));
+  return n; /* 1 = pertama kali dari browser ini, 2 = kedua kali, dst */
+}
+
+const SESSION_UUID = getOrCreateUUID();
+
+/* ================================================================
+   STATE
+================================================================ */
+let curQ          = 0;
+let answers       = [];   /* nilai per soal: index 0-3 (MC) atau nilai 1-5 (Likert) */
+let quizStartTime = null; /* timestamp saat mulai quiz, untuk hitung durasi */
+
+/* ================================================================
+   SCORING
+================================================================ */
+function getScoreVector(qi, ans) {
+  const q = QUESTIONS[qi];
+  if (q.type === 'mc')     return q.opts[ans].sc;   /* ans = 0–3 */
+  if (q.type === 'likert') return q.sc[ans - 1];    /* ans = 1–5 → index 0–4 */
+  return [5,5,5,5];
+}
+
+/* ================================================================
+   K-MEANS ASSIGNMENT — Euclidean distance ke centroid terdekat
+================================================================ */
 function classify(answers) {
-  const n = answers.length;
   const totals = [0,0,0,0];
-  answers.forEach(sc => sc.forEach((v,i) => totals[i] += v));
-  const avg = totals.map(v => v / n);
+  answers.forEach((ans, qi) => {
+    getScoreVector(qi, ans).forEach((v, i) => totals[i] += v);
+  });
+  const avg = totals.map(v => v / answers.length);
 
   let best = null, bestDist = Infinity;
   Object.entries(TYPES).forEach(([key, t]) => {
     const d = Math.sqrt(t.center.reduce((s,c,i) => s + (avg[i]-c)**2, 0));
     if (d < bestDist) { bestDist = d; best = key; }
   });
-  return { key: best, avg, totals };
+  return { key:best, avg, totals };
 }
 
-/* ============================================================
-   QUIZ FUNCTIONS
-============================================================ */
+/* ================================================================
+   NAVIGASI SCREEN
+================================================================ */
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function startQuiz() {
-  curQ    = 0;
-  answers = new Array(QUESTIONS.length).fill(null);
+  curQ          = 0;
+  answers       = new Array(QUESTIONS.length).fill(null);
+  quizStartTime = Date.now();
   buildDots();
   renderQ();
   show('screenQuiz');
@@ -845,39 +725,110 @@ function buildDots() {
 function refreshDots() {
   QUESTIONS.forEach((_,i) => {
     const d = document.getElementById(`dot${i}`);
-    d.className = 'prog-dot' +
-      (i < curQ ? ' done' : i === curQ ? ' active' : '');
+    d.className = 'prog-dot' + (i < curQ ? ' done' : i === curQ ? ' active' : '');
   });
 }
 
+/* ================================================================
+   RENDER PERTANYAAN
+================================================================ */
 function renderQ() {
   const q   = QUESTIONS[curQ];
-  const pct = Math.round((curQ / QUESTIONS.length) * 100);
+  const pct = Math.round(curQ / QUESTIONS.length * 100);
 
-  document.getElementById('qText').textContent     = q.text;
   document.getElementById('progLabel').textContent = `Pertanyaan ${curQ+1} dari ${QUESTIONS.length}`;
   document.getElementById('progPct').textContent   = pct + '%';
   document.getElementById('progFill').style.width  = pct + '%';
 
-  const grid = document.getElementById('optGrid');
+  /* Badge tipe pertanyaan */
+  const badge = document.getElementById('qTypeBadge');
+  if (q.type === 'mc') {
+    badge.textContent = 'Skenario'; badge.className = 'q-type-badge mc';
+  } else {
+    badge.textContent = 'Pernyataan'; badge.className = 'q-type-badge likert';
+  }
+
+  /* q-text dipakai untuk MC, disembunyikan untuk Likert
+     (teks Likert masuk ke dalam stmt box) */
+  const qText = document.getElementById('qText');
+  const grid  = document.getElementById('optGrid');
   grid.innerHTML = '';
-  const LTR = ['A','B','C','D'];
-  q.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn' + (answers[curQ] === i ? ' selected' : '');
-    btn.innerHTML = `<span class="opt-letter">${LTR[i]}</span><span>${opt.text}</span>`;
-    btn.onclick   = () => pick(i);
-    grid.appendChild(btn);
-  });
+
+  if (q.type === 'mc') {
+    qText.textContent  = q.text;
+    qText.style.display = '';
+    renderMC(q, grid);
+  } else {
+    qText.style.display = 'none';
+    renderLikert(q, grid);
+  }
 
   document.getElementById('btnBack').style.display = curQ === 0 ? 'none' : '';
   refreshNextBtn();
   refreshDots();
 }
 
-function pick(i) {
+/* ── Multiple Choice ── */
+function renderMC(q, grid) {
+  const wrap = document.createElement('div');
+  wrap.className = 'options';
+  const LTR = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn' + (answers[curQ] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="opt-letter">${LTR[i]}</span><span>${opt.text}</span>`;
+    btn.onclick   = () => pickMC(i);
+    wrap.appendChild(btn);
+  });
+  grid.appendChild(wrap);
+}
+
+function pickMC(i) {
   answers[curQ] = i;
-  document.querySelectorAll('.opt-btn').forEach((b,j) => b.classList.toggle('selected', j===i));
+  document.querySelectorAll('.opt-btn').forEach((b,j) =>
+    b.classList.toggle('selected', j === i)
+  );
+  refreshNextBtn();
+}
+
+/* ── Likert Scale ── */
+function renderLikert(q, grid) {
+  const wrap = document.createElement('div');
+  wrap.className = 'likert-container';
+
+  /* Kotak teks pernyataan */
+  const stmt = document.createElement('div');
+  stmt.className   = 'likert-stmt';
+  stmt.textContent = q.text;
+  wrap.appendChild(stmt);
+
+  /* Track: garis + 5 tombol */
+  const track = document.createElement('div');
+  track.className = 'likert-track';
+  for (let v = 1; v <= 5; v++) {
+    const btn = document.createElement('button');
+    btn.className   = 'lk-btn' + (answers[curQ] === v ? ' selected' : '');
+    btn.textContent = v;
+    btn.dataset.val = v;
+    btn.onclick     = () => pickLikert(v);
+    track.appendChild(btn);
+  }
+  wrap.appendChild(track);
+
+  /* Label ujung skala */
+  const labels = document.createElement('div');
+  labels.className = 'likert-labels';
+  labels.innerHTML = `<span>${q.scaleMin}</span><span>${q.scaleMax}</span>`;
+  wrap.appendChild(labels);
+
+  grid.appendChild(wrap);
+}
+
+function pickLikert(v) {
+  answers[curQ] = v;
+  document.querySelectorAll('.lk-btn').forEach(b =>
+    b.classList.toggle('selected', parseInt(b.dataset.val) === v)
+  );
   refreshNextBtn();
 }
 
@@ -898,13 +849,13 @@ function prevQ() {
   if (curQ > 0) { curQ--; renderQ(); }
 }
 
-/* ============================================================
-   LOADING → RESULT
-============================================================ */
+/* ================================================================
+   LOADING
+================================================================ */
 function runLoading() {
-  ['ldS1','ldS2','ldS3','ldS4'].forEach(id => {
-    document.getElementById(id).classList.remove('active','done');
-  });
+  ['ldS1','ldS2','ldS3','ldS4'].forEach(id =>
+    document.getElementById(id).classList.remove('active','done')
+  );
   show('screenLoading');
 
   const steps = ['ldS1','ldS2','ldS3','ldS4'];
@@ -919,17 +870,15 @@ function runLoading() {
       i++;
       setTimeout(tick, 780);
     } else {
-      const scores = answers.map((idx, qi) => QUESTIONS[qi].opts[idx].sc);
-      const result = classify(scores);
-      setTimeout(() => renderResult(result), 400);
+      setTimeout(() => renderResult(classify(answers)), 400);
     }
   }
   tick();
 }
 
-/* ============================================================
-   RESULT RENDER
-============================================================ */
+/* ================================================================
+   RENDER RESULT
+================================================================ */
 function renderResult(result) {
   const p = TYPES[result.key];
 
@@ -939,12 +888,11 @@ function renderResult(result) {
   document.getElementById('rDesc').textContent    = p.desc;
 
   const badge = document.getElementById('rBadge');
-  badge.textContent     = 'Kepribadian Keuangan';
-  badge.style.background= p.badgeBg;
-  badge.style.color     = p.badgeColor;
+  badge.textContent = 'Kepribadian Keuangan';
+  badge.style.background = p.badgeBg;
+  badge.style.color      = p.badgeColor;
 
   document.getElementById('resultHeader').style.background = p.headerBg;
-
   document.getElementById('rStrengths').innerHTML = p.strengths.map(s=>`<li>${s}</li>`).join('');
   document.getElementById('rWatchouts').innerHTML = p.watchouts.map(w=>`<li>${w}</li>`).join('');
 
@@ -954,118 +902,118 @@ function renderResult(result) {
   document.getElementById('rTipTtl').textContent  = 'Tips untuk ' + p.name;
   document.getElementById('rTipBody').textContent = p.tip;
 
-  // Dimension bars (animate)
-  const maxScore = 10 * QUESTIONS.length;
+  /* Dimension bars */
+  const maxScore = 10 * QUESTIONS.length; /* maks teoritis = 10 × 11 = 110 */
   result.totals.forEach((val, i) => {
-    const pct = Math.round((val / maxScore) * 100);
+    const pct = Math.round(val / maxScore * 100);
     const bar = document.getElementById(`dBar${i}`);
     bar.style.width      = '0%';
     bar.style.background = DIM_COLORS[i];
     setTimeout(() => { bar.style.width = pct + '%'; }, 350 + i * 140);
   });
 
-  // Other personalities
-  const othersRow = document.getElementById('othersRow');
-  othersRow.innerHTML = '';
-  const chips = [
-    { key:'elang', bg:'#E4F3FD', color:'#1B7DB5' },
-    { key:'lebah', bg:'#FFF8D6', color:'#B8860B' },
-    { key:'rubah', bg:'#FFEEDE', color:'#C05800' },
-    { key:'kura',  bg:'#DFF5E8', color:'#187A40' }
-  ].filter(c => c.key !== result.key);
-
-  chips.forEach(c => {
+  /* Chip tipe lainnya dengan animasi hewan mengambang */
+  const row = document.getElementById('othersRow');
+  row.innerHTML = '';
+  [{key:'elang',bg:'#E4F3FD',color:'#1B7DB5'},
+   {key:'lebah',bg:'#FFF8D6',color:'#B8860B'},
+   {key:'rubah',bg:'#FFEEDE',color:'#C05800'},
+   {key:'kura', bg:'#DFF5E8',color:'#187A40'}]
+  .filter(c => c.key !== result.key)
+  .forEach(c => {
     const t = TYPES[c.key];
     const chip = document.createElement('div');
-    chip.className    = 'other-chip';
+    chip.className        = 'other-chip';
     chip.style.background = c.bg;
     chip.style.color      = c.color;
-    chip.textContent  = t.name;
-    chip.title        = t.tagline;
-    othersRow.appendChild(chip);
+    chip.innerHTML        = `<span class="oc-animal">${t.emoji}</span>${t.name}`;
+    chip.title            = t.tagline;
+    row.appendChild(chip);
   });
 
   show('screenResult');
   launchConfetti();
-
-  // Kirim data ke Google Sheets
-  saveResult(result, answers);
+  saveResult(result);
 }
 
-/* ============================================================
-   SIMPAN DATA KE GOOGLE SHEETS
-============================================================ */
-function saveResult(result, rawAnswers) {
+/* ================================================================
+   SIMPAN DATA KE GOOGLE SHEETS VIA APPS SCRIPT
+================================================================ */
+function saveResult(result) {
   const statusEl = document.getElementById('saveStatus');
+  if (!SCRIPT_URL) return;
 
-  // Jika URL belum diisi, lewati
-  if (!SCRIPT_URL || SCRIPT_URL === "GANTI_DENGAN_URL_APPS_SCRIPT_KAMU") {
-    statusEl.textContent = '';
-    return;
-  }
+  const subCount    = incrementSubCount();
+  const timeSec     = quizStartTime ? Math.round((Date.now() - quizStartTime) / 1000) : null;
+  const p           = TYPES[result.key];
+  const letterMap   = ['A','B','C','D'];
 
-  const p = TYPES[result.key];
-  const letterMap = ['A', 'B', 'C', 'D'];
+  /* Format jawaban:
+     MC    → "A" / "B" / "C" / "D"
+     Likert → "1" / "2" / "3" / "4" / "5"   */
+  const formattedAnswers = answers.map((ans, qi) =>
+    QUESTIONS[qi].type === 'mc' ? letterMap[ans] : String(ans)
+  );
 
   const payload = {
-    timestamp:   new Date().toISOString(),
-    tipe_key:    result.key,
-    tipe_nama:   p.name,
-    dim_risiko:  parseFloat(result.avg[0].toFixed(2)),
-    dim_disiplin: parseFloat(result.avg[1].toFixed(2)),
-    dim_masa_depan: parseFloat(result.avg[2].toFixed(2)),
-    dim_analitis: parseFloat(result.avg[3].toFixed(2)),
-    jawaban: rawAnswers.map(idx => letterMap[idx])
+    timestamp:       new Date().toISOString(),
+    session_uuid:    SESSION_UUID,     /* ID unik browser — kunci deteksi duplikat */
+    local_sub_count: subCount,         /* berapa kali dari browser ini (dari localStorage) */
+    time_seconds:    timeSec,          /* durasi pengerjaan quiz */
+    result_type:     result.key,
+    result_name:     p.name,
+    dim_risiko:      parseFloat(result.avg[0].toFixed(2)),
+    dim_disiplin:    parseFloat(result.avg[1].toFixed(2)),
+    dim_masa_depan:  parseFloat(result.avg[2].toFixed(2)),
+    dim_analitis:    parseFloat(result.avg[3].toFixed(2)),
+    browser_lang:    navigator.language || '',
+    browser_tz:      Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+    screen_res:      `${screen.width}x${screen.height}`,
+    answers:         formattedAnswers  /* array 11 elemen */
   };
 
   statusEl.textContent = 'Menyimpan data...';
   statusEl.className   = 'save-status';
 
   fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode:   'no-cors',
-    headers: { 'Content-Type': 'application/json' },
+    method: 'POST', mode: 'no-cors',
+    headers: {'Content-Type':'application/json'},
     body: JSON.stringify(payload)
   })
   .then(() => {
     statusEl.textContent = 'Data berhasil disimpan';
     statusEl.className   = 'save-status ok';
-    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+    setTimeout(() => { statusEl.textContent = ''; }, 3500);
   })
   .catch(() => {
-    statusEl.textContent = 'Gagal menyimpan data — coba lagi nanti';
+    statusEl.textContent = 'Gagal menyimpan — coba lagi nanti';
     statusEl.className   = 'save-status err';
   });
 }
 
-/* ============================================================
+/* ================================================================
    RESTART
-============================================================ */
-function restartQuiz() {
-  startQuiz();
-}
+================================================================ */
+function restartQuiz() { startQuiz(); }
 
-/* ============================================================
+/* ================================================================
    CONFETTI
-============================================================ */
+================================================================ */
 function launchConfetti() {
-  const host   = document.getElementById('confetti-host');
+  const host = document.getElementById('confetti-host');
   host.innerHTML = '';
   const colors = ['#FF6B6B','#FFD93D','#6BCB77','#C77DFF','#4EC9C0','#FF9F43','#FF91A4'];
-
   for (let i = 0; i < 90; i++) {
-    const el   = document.createElement('div');
+    const el = document.createElement('div');
     el.className = 'conf';
     const size = 7 + Math.random() * 9;
-    const dur  = 1.4 + Math.random() * 1.8;
-    const del  = Math.random() * .6;
     el.style.cssText = `
       left:${Math.random()*100}%;
-      width:${size}px; height:${size}px;
+      width:${size}px;height:${size}px;
       background:${colors[Math.floor(Math.random()*colors.length)]};
-      border-radius:${Math.random()>.45 ? '50%' : '3px'};
-      animation-duration:${dur}s;
-      animation-delay:${del}s;
+      border-radius:${Math.random()>.45?'50%':'3px'};
+      animation-duration:${1.4+Math.random()*1.8}s;
+      animation-delay:${Math.random()*.6}s;
       opacity:1;
     `;
     host.appendChild(el);
