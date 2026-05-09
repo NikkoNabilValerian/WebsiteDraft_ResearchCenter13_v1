@@ -191,7 +191,7 @@ body{
 .result-body{padding:24px 32px 32px;}
 .result-desc{background:var(--crm-lt);border-radius:16px;padding:18px 20px;font-size:14px;color:var(--mid);line-height:1.82;margin-bottom:24px;}
 /* RADAR CHART */
-.chart-row{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center;margin-bottom:24px;}
+.chart-row{display:grid;grid-template-columns:220px 1fr;gap:16px;align-items:center;margin-bottom:24px;}
 .chart-svg-wrap{display:flex;justify-content:center;}
 .chart-legend{}
 .chart-legend-item{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);}
@@ -633,6 +633,29 @@ const SCORING_LABELS = [
   "Cara berbelanja"
 ];
 
+/* Skor multi-dimensi 0-10 per tipe untuk setiap opsi 3 pertanyaan kunci.
+   Setiap jawaban memberi kontribusi ke SEMUA tipe agar skor tersebar merata. */
+const SCORING_MATRIX = {
+  alokasi_sisa: [
+    {A:10, B:1,  C:6,  D:4},
+    {A:1,  B:10, C:0,  D:6},
+    {A:5,  B:0,  C:10, D:5},
+    {A:4,  B:3,  C:7,  D:3}
+  ],
+  prioritas_dana: [
+    {A:8,  B:0,  C:10, D:3},
+    {A:2,  B:10, C:0,  D:4},
+    {A:5,  B:1,  C:8,  D:3},
+    {A:4,  B:5,  C:3,  D:10}
+  ],
+  cara_belanja: [
+    {A:10, B:2,  C:5,  D:4},
+    {A:0,  B:10, C:1,  D:5},
+    {A:4,  B:0,  C:10, D:3},
+    {A:6,  B:3,  C:6,  D:10}
+  ]
+};
+
 /* ================================================================
    STATE
 ================================================================ */
@@ -988,7 +1011,9 @@ function renderResult(result){
   const p = TYPES[result.winner];
 
   document.getElementById("resultHero").style.background = p.heroBg;
-  document.getElementById("rIcon").textContent  = p.icon;
+  const rIconEl = document.getElementById("rIcon");
+  rIconEl.textContent   = p.icon;
+  rIconEl.style.background = p.color;
   document.getElementById("rName").textContent  = p.name;
   document.getElementById("rTag").textContent   = p.tag;
   document.getElementById("rDesc").textContent  = p.desc;
@@ -1007,10 +1032,10 @@ function renderResult(result){
         "<span class='chart-legend-name'>"+tp.icon+" "+tp.name+"</span>"+
         "<div class='chart-legend-bar-wrap'><div class='chart-legend-bar' id='lbar-"+t+"' style='width:0%;background:"+tp.color+"'></div></div>"+
       "</div>"+
-      "<div class='chart-legend-score'>"+result.scores[t]+"/3</div>";
+      "<div class='chart-legend-score'>"+result.scores[t].toFixed(1)+"/10</div>";
     legend.appendChild(item);
     setTimeout(()=>{
-      document.getElementById("lbar-"+t).style.width = Math.round(result.scores[t]/3*100)+"%";
+      document.getElementById("lbar-"+t).style.width = Math.round(result.scores[t]/10*100)+"%";
     }, 400+["A","B","C","D"].indexOf(t)*100);
   });
 
@@ -1037,7 +1062,7 @@ function renderResult(result){
     const tp = TYPES[t];
     const chip = document.createElement("div"); chip.className="oc";
     chip.style.background = tp.chipBg; chip.style.color = tp.chipColor;
-    chip.innerHTML = "<span class='oc-icon'>"+tp.icon+"</span>"+tp.name;
+    chip.innerHTML = "<span class='oc-icon' style='background:"+tp.color+"'>"+tp.icon+"</span>"+tp.name;
     row.appendChild(chip);
   });
 
@@ -1050,68 +1075,88 @@ function renderResult(result){
    RADAR CHART — 4-axis SVG spider chart
 ================================================================ */
 function drawRadar(containerId, scores, winKey){
-  const W=200, H=200, cx=100, cy=100, R=72;
+  /* Skala scores sekarang 0-10, bukan 0-3 */
+  const W=280, H=280, cx=140, cy=140, R=82;
   const axes=[
-    {key:"A",angle:-90}, {key:"B",angle:0},
-    {key:"C",angle:90},  {key:"D",angle:180}
+    {key:"A", angle:-90, lx:140, ly:12,  anchor:"middle"},  /* Top */
+    {key:"B", angle:0,   lx:270, ly:140, anchor:"start"},   /* Right */
+    {key:"C", angle:90,  lx:140, ly:274, anchor:"middle"},  /* Bottom */
+    {key:"D", angle:180, lx:10,  ly:140, anchor:"end"}      /* Left */
   ];
 
-  function xy(angle,r){ const rad=angle*Math.PI/180; return [cx+r*Math.cos(rad), cy+r*Math.sin(rad)]; }
+  function xy(angle,r){
+    const rad=angle*Math.PI/180;
+    return [cx+r*Math.cos(rad), cy+r*Math.sin(rad)];
+  }
 
-  let svg = "";
+  let svg="";
 
-  /* Grid rings */
-  [1,2,3].forEach(lvl=>{
-    const r = R*lvl/3;
-    const pts = axes.map(a=>xy(a.angle,r).join(",")).join(" ");
-    svg += "<polygon points='"+pts+"' fill='none' stroke='#e8d8c8' stroke-width='1'/>";
+  /* Grid rings — 10 level skala baru */
+  [2,4,6,8,10].forEach(lvl=>{
+    const r=R*lvl/10;
+    const pts=axes.map(a=>xy(a.angle,r).join(",")).join(" ");
+    const isMain=(lvl===5||lvl===10);
+    svg+="<polygon points='"+pts+"' fill='none' stroke='"+(isMain?"#d8c8b8":"#ebe3d8")+"' stroke-width='"+(isMain?"1.2":"0.8")+"'/>";
   });
 
-  /* Grid labels */
-  [1,2,3].forEach(lvl=>{
-    const [x,y] = xy(-90, R*lvl/3);
-    svg += "<text x='"+(x+4)+"' y='"+(y-2)+"' font-size='8' fill='#bbb' font-family='Nunito,sans-serif'>"+lvl+"</text>";
+  /* Ring value labels (right side) */
+  [2,4,6,8,10].forEach(lvl=>{
+    const [x,y]=xy(0, R*lvl/10);
+    svg+="<text x='"+(x+3)+"' y='"+(y+3)+"' font-size='7.5' fill='#bbb' font-family='Nunito,sans-serif'>"+lvl+"</text>";
   });
 
   /* Axis lines */
   axes.forEach(a=>{
-    const [x,y] = xy(a.angle, R);
-    svg += "<line x1='"+cx+"' y1='"+cy+"' x2='"+x+"' y2='"+y+"' stroke='#e8d8c8' stroke-width='1'/>";
+    const [x,y]=xy(a.angle,R);
+    svg+="<line x1='"+cx+"' y1='"+cy+"' x2='"+x+"' y2='"+y+"' stroke='#ddd' stroke-width='1'/>";
   });
 
-  /* Score polygon */
-  const scorePts = axes.map(a=>{
-    const s = (scores[a.key]||0)/3;
+  /* Score polygon — scale 0-10 */
+  const scorePts=axes.map(a=>{
+    const s=Math.max(0,Math.min(10, scores[a.key]||0))/10;
     return xy(a.angle, R*s).join(",");
   }).join(" ");
-  const wc = TYPES[winKey].color;
-  svg += "<polygon points='"+scorePts+"' fill='"+wc+"' fill-opacity='0.18' stroke='"+wc+"' stroke-width='2' stroke-linejoin='round'/>";
+  const wc=TYPES[winKey].color;
+  svg+="<polygon points='"+scorePts+"' fill='"+wc+"' fill-opacity='0.16' stroke='"+wc+"' stroke-width='2.2' stroke-linejoin='round'/>";
 
-  /* Dots at score vertices */
+  /* Vertex dots */
   axes.forEach(a=>{
-    const s = (scores[a.key]||0)/3;
+    const s=Math.max(0,Math.min(10,scores[a.key]||0))/10;
     if(s>0){
-      const [x,y] = xy(a.angle, R*s);
-      svg += "<circle cx='"+x+"' cy='"+y+"' r='4.5' fill='"+TYPES[a.key].color+"' stroke='white' stroke-width='1.5'/>";
+      const [x,y]=xy(a.angle,R*s);
+      svg+="<circle cx='"+x+"' cy='"+y+"' r='4.5' fill='"+TYPES[a.key].color+"' stroke='white' stroke-width='2'/>";
     }
   });
 
-  /* Axis labels */
-  const labelOffset = R+20;
+  /* Score value text on dots */
   axes.forEach(a=>{
-    const tp = TYPES[a.key];
-    const [x,y] = xy(a.angle, labelOffset);
-    const anchor = a.angle===0?"start":a.angle===180?"end":"middle";
-    const lines = (tp.icon+" "+tp.name).split(" ");
-    svg += "<text text-anchor='"+anchor+"' font-family='Nunito,sans-serif' font-weight='800' font-size='9' fill='"+tp.color+"'>";
-    svg += "<tspan x='"+x+"' y='"+y+"'>"+tp.icon+"</tspan>";
-    svg += "<tspan x='"+x+"' dy='11'>"+tp.name.split(" ")[0]+"</tspan>";
-    if(tp.name.split(" ")[1]) svg += "<tspan x='"+x+"' dy='10'>"+tp.name.split(" ")[1]+"</tspan>";
-    svg += "</text>";
+    const sc=scores[a.key]||0;
+    const s=Math.max(0,Math.min(10,sc))/10;
+    if(s>0.05){
+      const [x,y]=xy(a.angle,R*s);
+      /* Offset the number away from center */
+      const offX=a.angle===0?10:a.angle===180?-10:0;
+      const offY=a.angle===-90?-9:a.angle===90?11:3;
+      svg+="<text x='"+(x+offX)+"' y='"+(y+offY)+"' text-anchor='middle' font-size='8.5' font-weight='900' fill='"+TYPES[a.key].color+"' font-family='Nunito,sans-serif'>"+sc.toFixed(1)+"</text>";
+    }
   });
 
-  document.getElementById(containerId).innerHTML =
-    "<svg width='"+W+"' height='"+H+"' viewBox='0 0 "+W+" "+H+"' xmlns='http://www.w3.org/2000/svg'>"+svg+"</svg>";
+  /* Axis labels — positioned at fixed safe coords */
+  axes.forEach(a=>{
+    const tp=TYPES[a.key];
+    const nameParts=tp.name.split(" ");
+    svg+="<text text-anchor='"+a.anchor+"' font-family='Nunito,sans-serif' font-weight='900' font-size='9.5' fill='"+tp.color+"'>";
+    /* Short code badge circle */
+    const bx=a.lx, by=a.ly-6;
+    svg+="<tspan x='"+bx+"' y='"+by+"' font-size='10' font-weight='900'>"+tp.code+"</tspan>";
+    nameParts.forEach((part,pi)=>{
+      svg+="<tspan x='"+bx+"' dy='"+(pi===0?"12":"11")+"'>"+part+"</tspan>";
+    });
+    svg+="</text>";
+  });
+
+  document.getElementById(containerId).innerHTML=
+    "<svg width='100%' viewBox='0 0 "+W+" "+H+"' xmlns='http://www.w3.org/2000/svg' style='overflow:visible'>"+svg+"</svg>";
 }
 
 /* ================================================================
